@@ -1,5 +1,8 @@
 package org.example;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * a) Intersection: Given two (singly) linked lists, determine if the two lists intersect.
  * Return the intersecting node.
@@ -9,11 +12,32 @@ package org.example;
  */
 public class Main {
     public static void main(String[] args) {
-        LinkedList ll = new LinkedList();
-        ll.append(25);
-        ll.append(50);
-        ll.append(75);
-        ll.append(100);
+        LinkedList l1 = new LinkedList();
+        l1.append(25);
+        l1.append(50);
+        l1.append(75);
+        l1.append(100);
+
+        LinkedList l2 = l1;
+
+//        ll.printList();
+        Set<Node> nodeSet = l1.returnNodeSet();
+//        nodeSet.forEach(System.out::println);
+        Node intersectingNode = returnIntersectingNode(l1, l2);
+        System.out.println(intersectingNode);
+    }
+
+    public static Node returnIntersectingNode(LinkedList l1, LinkedList l2) {
+        Set<Node> nodeSetL1 = l1.returnNodeSet();
+        Set<Node> nodeSetL2 = l2.returnNodeSet();
+
+        // Return the first node that fond in both sets of nodes
+        for (Node n : nodeSetL1) {
+            if (nodeSetL2.contains(n)) {
+                return n;
+            }
+        }
+        return null;
     }
 }
 
@@ -40,6 +64,32 @@ class LinkedList {
             current = current.next;
         }
         current.next = new Node(data);
+    }
+    void printList()
+    {
+        Node currentNode = this.head;
+
+        System.out.print("LinkedList: ");
+
+        // Traverse through the LinkedList
+        while (currentNode != null) {
+            // Print the data at current node
+            System.out.print(currentNode.data + " ");
+
+            // Go to next node
+            currentNode = currentNode.next;
+        }
+    }
+
+    Set<Node> returnNodeSet() {
+        Set<Node> nodeSet = new HashSet<>();
+        Node currentNode = this.head;
+
+        while (currentNode != null) {
+            nodeSet.add(currentNode);
+            currentNode = currentNode.next;
+        }
+        return nodeSet;
     }
 
 }
